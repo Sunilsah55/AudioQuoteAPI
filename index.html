@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quoteAudio</title>
+    <link rel="stylesheet" href="mystyle.css">
+</head>
+<body>
+    <div class="main-container">
+        <h2>Audio Quote Generator</h2>
+        <div id="result" class="content"></div>
+        <div class="author-container" id="author"></div>
+        <button onclick="Quote()">Next</button>
+                
+        </div>
+
+<script type="text/javascript">
+        function speak(text,voice,rate,pitch,volume)
+    {
+        let speechData = new SpeechSynthesisUtterance('');
+        speechData.volume=volume;
+        speechData.rate=rate;
+        speechData.pitch=pitch;
+        speechData.text=text;
+        //speechData.lang=lang;
+        speechData.voice=voice;
+        speechSynthesis.speak(speechData);
+    }
+        function Quote() {
+        var r =1.4;
+        var p =1;
+        var v=0.8;
+          fetch("https://type.fit/api/quotes")
+            .then((response) => {
+              return response.json();
+            })
+            .then((myJson) => {
+            var x = Math.floor((Math.random() * 1640)+1);
+            document.getElementById('result').innerHTML = myJson[x].text;
+            document.getElementById('author').innerHTML = "~ "+myJson[x].author;
+            var y = myJson[x].text;
+            var z = myJson[x].author;
+            speak(y,undefined,r,p,v);
+            speak(z,undefined,r,p,v);
+            });
+        }
+        Quote();
+
+ </script>
+
+    
+</body>
+</html>
